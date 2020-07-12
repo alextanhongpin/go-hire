@@ -23,6 +23,11 @@ BEGIN;
 		PERFORM upsert_email_account('john.doe@mail.com', '12345678', 'John Doe', 'john-doe');
 		RETURN NEXT isnt_empty('SELECT * FROM "user"', 'should create user');
 		RETURN NEXT isnt_empty('SELECT * FROM authenticate(''john.doe@mail.com'', ''12345678'')', 'should return the user');
+		RETURN NEXT results_eq(
+			'SELECT * FROM authenticate(''john.doe@mail.com'', ''12345678'')',
+			$sql$ SELECT * FROM "user" WHERE email = 'john.doe@mail.com' $sql$,
+			'should return the user'
+		);
 		RETURN NEXT throws_ok('SELECT * FROM authenticate(''john.doe@mail.com'', ''123456789'')', 'Email (john.doe@mail.com) or password is invalid', 'should return error if the email does not exist');
 	END;
 	$$ LANGUAGE plpgsql;
