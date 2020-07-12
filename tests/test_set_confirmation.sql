@@ -40,6 +40,21 @@ BEGIN;
 	END;
 	$$ LANGUAGE plpgsql;
 
+	CREATE OR REPLACE FUNCTION set_confirmation_test.test_token_expired()
+	RETURNS SETOF TEXT AS $$
+	DECLARE
+		local_confirmation_token text;
+		out record;
+	BEGIN
+		PERFORM upsert_email_account('john.doe@mail.com', '12345678', 'John Doe', 'john-doe');
+		SELECT confirmation_token
+		INTO STRICT local_confirmation_token
+		FROM request_confirmation('john.doe@mail.com');
+
+		RETURN NEXT throws_ok(format('SELECT set_confirmation(%L, -1)', local_confirmation_token), 'Confirmation token expired', 'should return error if token expired');
+	END;
+	$$ LANGUAGE plpgsql;
+
 	SELECT * FROM runtests('set_confirmation_test'::name);
 
 ROLLBACK;
