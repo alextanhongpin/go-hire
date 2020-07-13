@@ -16,3 +16,6 @@ exec:
 .PHONY: tests
 tests:
 	@docker exec -it $(shell docker ps -q) pg_prove -U ${DB_USER} -d ${DB_NAME} --verbose --ext .sql -r tmp/tests/
+
+start:
+	@go run main.go
