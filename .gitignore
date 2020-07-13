@@ -1,2 +1,5 @@
 tmp/
 .env
+
+# Ignore auto-generated files.
+packrd/
