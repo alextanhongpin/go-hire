@@ -25,7 +25,7 @@ migrate: ## Run the migration
 rollback: ## Undo the last migration
 	@sql-migrate down -config=${DBCONFIG_PATH}
 
-generate: ## Generate packr migration bindata.
+gen: ## Generate packr migration bindata.
 	@# packr2 clean
 	@packr2
 	@sqlc generate

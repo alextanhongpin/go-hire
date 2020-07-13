@@ -38,9 +38,17 @@ func (c Config) String() string {
 	)
 }
 
-func New() (*sql.DB, error) {
-	cfg := Config{}
+func NewConfig() (*Config, error) {
+	var cfg Config
 	if err := envconfig.Process("", &cfg); err != nil {
+		return nil, err
+	}
+	return &cfg, nil
+}
+
+func New() (*sql.DB, error) {
+	cfg, err := NewConfig()
+	if err != nil {
 		return nil, err
 	}
 

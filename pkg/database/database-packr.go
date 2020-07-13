@@ -5,4 +5,4 @@
 // and any other packr generated files.
 package database
 
-import _ "github.com/alextanhongpin/go-backend/packrd"
+import _ "github.com/alextanhongpin/go-db/packrd"
