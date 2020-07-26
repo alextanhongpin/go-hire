@@ -16,3 +16,13 @@ exec:
 .PHONY: tests
 tests:
 	@docker exec -it $(shell docker ps -q) pg_prove -U ${DB_USER} -d ${DB_NAME} --verbose --ext .sql -r tmp/tests/
+
+VERSION := 12.3-alpine
+
+docker:
+	docker build -t alextanhongpin/pg-tap:${VERSION} --build-arg POSTGRES_VERSION=${VERSION} .
+
+push:
+	docker push alextanhongpin/pg-tap:${VERSION}
+
+dockerhub: docker push
