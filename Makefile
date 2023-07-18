@@ -19,3 +19,12 @@ tests:
 
 start:
 	@go run main.go
+VERSION := 12.3-alpine
+
+docker:
+	docker build -t alextanhongpin/pg-tap:${VERSION} --build-arg POSTGRES_VERSION=${VERSION} .
+
+push:
+	docker push alextanhongpin/pg-tap:${VERSION}
+
+dockerhub: docker push
